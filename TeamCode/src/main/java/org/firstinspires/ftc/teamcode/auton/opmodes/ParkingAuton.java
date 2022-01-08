@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 
 // NOTE: Face bot towards the plastic barrier, park bot between the tiles before the plastic barrier.
-@Autonomous(name = "RedParkingAuton")
-public class RedParkingAuton extends CommandOpMode {
+@Autonomous(name = "ParkingAuton")
+public class ParkingAuton extends CommandOpMode {
 
     // Subsystems
     private MecanumDriveSubsystem mecanumDriveS;
@@ -30,7 +30,7 @@ public class RedParkingAuton extends CommandOpMode {
         mecanumDriveS = new MecanumDriveSubsystem(new SampleMecanumDrive(hardwareMap), false);
 
         Trajectory traj0 = mecanumDriveS.trajectoryBuilder(startPose).
-                forward(35.0)
+                forward(46.0)
                 .build();
 
         TrajectoryFollowerCommand autonomous = new TrajectoryFollowerCommand(mecanumDriveS, traj0);

@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.commands.DropCommand;
+import org.firstinspires.ftc.teamcode.commands.DropCommandInitLift;
 import org.firstinspires.ftc.teamcode.commands.LiftCommandNoPIDDown;
 import org.firstinspires.ftc.teamcode.commands.LiftCommandNoPIDFix;
 import org.firstinspires.ftc.teamcode.commands.LiftCommandNoPIDUp;
@@ -60,6 +61,8 @@ public class MainTeleOp extends CommandOpMode {
     private LiftCommandNoPIDFix liftNoPIDFixUp_Com;
     private LiftCommandNoPIDFix liftNoPIDFixDown_Com;
     private DropCommand drop_Com;
+
+    private DropCommandInitLift dropInitLift_Com;
 
     // Extra Stuff
     private GamepadEx gPad1;
@@ -139,6 +142,7 @@ public class MainTeleOp extends CommandOpMode {
 
         dropS = new DropSubsystem(sLeftDrop, sRightDrop);
         drop_Com = new DropCommand(dropS);
+        dropInitLift_Com = new DropCommandInitLift(dropS, liftNoPIDS, time);
 
         liftNoPIDS = new LiftSubsystemNoPID(mLeftLift, mRightLift);
         // liftNoPID_Com = new LiftCommandNoPID(liftNoPIDS, time, sLeftDrop, sRightDrop);

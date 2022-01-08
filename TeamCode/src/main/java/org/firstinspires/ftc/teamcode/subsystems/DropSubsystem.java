@@ -62,26 +62,41 @@ public class DropSubsystem extends SubsystemBase {
             rightDrop.turnToAngle(0.0);
     }
 
+
     public void initDrop() {
         leftDrop.turnToAngle(-85.0);
-        rightDrop.turnToAngle(-85.0);
+        // rightDrop.turnToAngle(-85.0);
     }
 
-    public void drop() {
+    public void drop() { // 0.6667
         leftDrop.turnToAngle(30.0);
-        rightDrop.turnToAngle(30.0);
+        // rightDrop.turnToAngle(30.0);
     }
 
-    public void miniDrop() {
+    public void miniDrop() { // 0.3333
         leftDrop.turnToAngle(-30.0);
-        rightDrop.turnToAngle(-30.0);
+        // rightDrop.turnToAngle(-30.0);
     }
-    public void halfDrop() {
+    public void halfDrop() { //
         leftDrop.turnToAngle(-10.0);
-        rightDrop.turnToAngle(-10.0);
+        // rightDrop.turnToAngle(-10.0);
     }
     public void resetDrop() {
         leftDrop.turnToAngle(0.0);
         rightDrop.turnToAngle(0.0);
+    }
+
+    // 0.6667, 0.3333, 0.02777, -0.4444-, 0.6666
+
+    public void initDropPos() {
+        leftDrop.setPosition(0.6667);
+    }
+
+    public void midDropPos() {
+        leftDrop.setPosition(0.3333);
+    }
+
+    public void dropPos() {
+        leftDrop.setPosition(0.027777);
     }
 }
