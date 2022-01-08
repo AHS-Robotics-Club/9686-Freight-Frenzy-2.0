@@ -135,6 +135,11 @@ public class MainTeleOp extends CommandOpMode {
         backLeft.motor.setDirection(DcMotor.Direction.FORWARD);
         // backRight.motor.setDirection(DcMotor.Direction.FORWARD);
 
+        // frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
+        // frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
+        // backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
+        // backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
+
         frontLeft.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRight.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeft.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -175,7 +180,6 @@ public class MainTeleOp extends CommandOpMode {
 
         // Drop
         gPad1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(drop_Com);
-
 
 
         // Slow Drivetrain

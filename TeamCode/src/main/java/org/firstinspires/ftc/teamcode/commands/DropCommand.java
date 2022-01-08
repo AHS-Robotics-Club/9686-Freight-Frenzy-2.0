@@ -14,16 +14,15 @@ public class DropCommand extends CommandBase {
     }
 
     @Override
-    public void execute() {
-        if (dropCount == 0) {
+    public void initialize() {
+        if (dropCount == 0)
             dropS.miniDrop();
-        } else if (dropCount == 1) {
+        else if (dropCount == 1)
             dropS.initDrop();
-        } else if (dropCount == 2) {
+        else if (dropCount == 2)
             dropS.halfDrop();
-        } else {
+        else
             dropS.drop();
-        }
     }
 
     public void end(boolean interrupted) {
