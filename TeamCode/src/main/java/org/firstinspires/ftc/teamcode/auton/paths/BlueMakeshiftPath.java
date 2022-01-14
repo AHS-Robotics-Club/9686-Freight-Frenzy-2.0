@@ -7,6 +7,8 @@ import com.acmerobotics.roadrunner.trajectory.constraints.MecanumVelocityConstra
 import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
 import com.arcrobotics.ftclib.command.FunctionalCommand;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SelectCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.StartEndCommand;
@@ -53,14 +55,24 @@ public class BlueMakeshiftPath extends SequentialCommandGroup {
                 .forward(50.0)
                 .build();
 
+        // addCommands(
+        //         new TrajectoryFollowerCommand(drive, traj0),
+        //         new RunCommand(sDrop::initDrop).raceWith(new WaitCommand(2000)),
+        //         new RunCommand(sDrop::halfDrop).raceWith(new WaitCommand(2000)),
+        //         new RunCommand(sDrop::drop).raceWith(new WaitCommand(2000)),
+        //         // new TurnCommand(drive, Math.toRadians(-200)),
+        //         new TurnCommand(drive, Math.toRadians(210)),
+        //         new TrajectoryFollowerCommand(drive, traj1)//.alongWith(new StartEndCommand(() -> mIntake.set(0.5), () -> mIntake.stopMotor()))
+        // );
+
         addCommands(
                 new TrajectoryFollowerCommand(drive, traj0),
-                new RunCommand(sDrop::initDrop).raceWith(new WaitCommand(2000)),
-                new RunCommand(sDrop::halfDrop).raceWith(new WaitCommand(2000)),
-                new RunCommand(sDrop::drop).raceWith(new WaitCommand(2000)),
+                new RunCommand(sDrop::initDrop).raceWith(new WaitCommand(1000)),
+                new ParallelCommandGroup(
+                        new TurnCommand(drive, Math.toRadians(197)).andThen(new TrajectoryFollowerCommand(drive, traj1)),
+                        new RunCommand(sDrop::halfDrop).raceWith(new WaitCommand(1000)).andThen(new RunCommand(sDrop::drop).raceWith(new WaitCommand(1000)).andThen(new RunCommand(() -> mIntake.set(-0.5)).raceWith(new WaitCommand(5000)).andThen(new InstantCommand(() -> mIntake.set(0)))))
+                )
                 // new TurnCommand(drive, Math.toRadians(-200)),
-                new TurnCommand(drive, Math.toRadians(210)),
-                new TrajectoryFollowerCommand(drive, traj1)//.alongWith(new StartEndCommand(() -> mIntake.set(0.5), () -> mIntake.stopMotor()))
         );
     }
 }
