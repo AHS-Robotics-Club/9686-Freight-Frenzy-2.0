@@ -11,28 +11,17 @@ public class BlueIntakeAuton {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(73.17, 73.17, Math.toRadians(360), Math.toRadians(360), 9)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(9.0, 62.0, 0.0))
 //                                .strafeLeft(5.0)
-                                .lineToLinearHeading(new Pose2d(9.0, 57.0, Math.toRadians(60.0)))
-//                                .turn(Math.toRadians(-60.0))
-                                .back(23.0)
-                                // Bring carriage down
-                                .forward(23.0)
-//                                .turn(Math.toRadians(60.0))
-//                                .strafeRight(5.0)
-                                .lineToLinearHeading(new Pose2d(9.0, 62.0, 0.0))
-                                .forward(36.0).waitSeconds(0.2)
-                                // Intake On
-                                .forward(12.0)
-                                .back(12.0)
-                                // Intake off, lift up carriage
-                                .back(36.0)
-//                                .strafeLeft(5.0)
-//                                .turn(Math.toRadians(-60.0))
-//                                .lineToLinearHeading(new Pose2d(9.0, -57.0, Math.toRadians(-60.0)))
-//                                .back(23.0)
+                                .lineToLinearHeading(new Pose2d(-6.0, 34.0, Math.toRadians(60.0))) // Drop init freight
+                                .lineToLinearHeading(new Pose2d(9.0, 62.0, 0.0)) // Go back to start pos
+                                .lineToLinearHeading(new Pose2d(49.0, 62.0, 0.0)).waitSeconds(0.2) // Go into warehouse
+                                .lineToLinearHeading(new Pose2d(59.0, 62.0, 0.0)) // Get blocks
+//                                .splineToSplineHeading(new Pose2d(-6.0, 34.0, Math.toRadians(60.0)), 360.0)
+                                .lineToLinearHeading(new Pose2d(9.0, 62.0, 0.0)) // Go to start pos
+                                .lineToLinearHeading(new Pose2d(-6.0, 34.0, Math.toRadians(60.0))) // Drop new freight
                                 .build()
                 );
 
