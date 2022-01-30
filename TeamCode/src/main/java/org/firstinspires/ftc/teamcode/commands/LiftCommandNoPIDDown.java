@@ -30,7 +30,7 @@ public class LiftCommandNoPIDDown extends CommandBase {
             timeToDrop = 0.45;
         } else if (sLift.getLevel() == 3) {
             sLift.motorDown();
-            timeToDrop = 0.8;
+            timeToDrop = 0.825; // 0.8
         }
     }
 

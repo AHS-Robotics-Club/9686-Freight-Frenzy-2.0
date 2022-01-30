@@ -10,6 +10,8 @@ public class DropSubsystem extends SubsystemBase {
     private SimpleServo leftDrop;
     private SimpleServo rightDrop;
 
+    public static double dropOne = 130.0;
+
 
 // private SimpleServoEmpty leftDropEmpty;
 // private SimpleServoEmpty rightDropEmpty;
@@ -63,24 +65,35 @@ public class DropSubsystem extends SubsystemBase {
     }
 
 
-    public void initDrop() {
-        leftDrop.turnToAngle(-85.0);
-        // rightDrop.turnToAngle(-85.0);
-    }
-
-    public void drop() { // 0.6667
-        leftDrop.turnToAngle(30.0);
-        // rightDrop.turnToAngle(30.0);
-    }
-
-    public void miniDrop() { // 0.3333
-        leftDrop.turnToAngle(-30.0);
+    public void dropTwo() { // 0.3333
+//        leftDrop.turnToAngle(-10.0);
+//        leftDrop.setPosition(0.333);
         // rightDrop.turnToAngle(-30.0);
+//        leftDrop.setPosition(0.9);
+        leftDrop.turnToAngle(-25.0);
     }
-    public void halfDrop() { //
-        leftDrop.turnToAngle(-10.0);
+
+    public void dropThree() {
+//        leftDrop.turnToAngle(-55.0);
+//        leftDrop.setPosition(0.1);
+        // rightDrop.turnToAngle(-85.0);
+//        leftDrop.setPosition(0.7);
+        leftDrop.turnToAngle(-105.0);
+    }
+
+    public void dropFour() { //
+//        leftDrop.turnToAngle(-10.0);
         // rightDrop.turnToAngle(-10.0);
+//        leftDrop.setPosition(0.1);
+        leftDrop.turnToAngle(10.0);
     }
+
+    public void dropOne() { // 0.6667
+//        leftDrop.turnToAngle(60.0);
+        // rightDrop.turnToAngle(30.0);
+        leftDrop.turnToAngle(dropOne);
+    }
+
     public void resetDrop() {
         leftDrop.turnToAngle(0.0);
         rightDrop.turnToAngle(0.0);
