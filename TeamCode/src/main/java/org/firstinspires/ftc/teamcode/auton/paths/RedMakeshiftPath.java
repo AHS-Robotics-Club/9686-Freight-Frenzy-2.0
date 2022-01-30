@@ -17,12 +17,12 @@ import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 
 import javax.annotation.Nullable;
 
-public class BlueMakeshiftPath extends SequentialCommandGroup {
+public class RedMakeshiftPath extends SequentialCommandGroup {
 
     private Pose2d startPose = new Pose2d(-12.0, 62.0, Math.toRadians(90.0));
     private Pose2d pose2 = new Pose2d(-12.0, 44.0, Math.toRadians(10.0));
 
-    public BlueMakeshiftPath(MecanumDriveSubsystem drive, DropSubsystem sDrop, Motor mIntake, @Nullable ElapsedTime time) {
+    public RedMakeshiftPath(MecanumDriveSubsystem drive, DropSubsystem sDrop, Motor mIntake, @Nullable ElapsedTime time) {
         drive.setPoseEstimate(startPose);
 
         Trajectory traj0 = drive.trajectoryBuilder(startPose)
@@ -57,7 +57,7 @@ public class BlueMakeshiftPath extends SequentialCommandGroup {
                 new TrajectoryFollowerCommand(drive, traj0),
                 new RunCommand(sDrop::dropThree).raceWith(new WaitCommand(1000)),
                 new ParallelCommandGroup(
-                        new TurnCommand(drive, Math.toRadians(160)).andThen(new TrajectoryFollowerCommand(drive, traj1)),
+                        new TurnCommand(drive, Math.toRadians(-165)).andThen(new TrajectoryFollowerCommand(drive, traj1)),
                         new RunCommand(sDrop::dropFour).raceWith(new WaitCommand(1000)).andThen(new RunCommand(sDrop::dropOne).raceWith(new WaitCommand(1000)).andThen(new RunCommand(() -> mIntake.set(-0.5)).raceWith(new WaitCommand(5000)).andThen(new InstantCommand(() -> mIntake.set(0)))))
                 )
                 // new TurnCommand(drive, Math.toRadians(-200)),

@@ -33,13 +33,13 @@ public class DropCommandInitLift extends CommandBase {
     @Override
     public void execute() {
         if (dropCount == 0) {
-            dropS.miniDrop();
+            dropS.dropTwo();
         } else if (dropCount == 1) {
-            dropS.initDrop();
+            dropS.dropThree();
         } else if (dropCount == 2) {
-            dropS.halfDrop();
+            dropS.dropFour();
         } else {
-            dropS.drop();
+            dropS.dropOne();
         }
     }
 

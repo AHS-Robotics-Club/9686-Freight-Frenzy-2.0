@@ -29,7 +29,7 @@ public class LiftCommandNoPIDUp extends CommandBase {
             timeToLift = 0.3;
         } else if (sLift.getLevel() == 2) {
             sLift.motorUp();
-            timeToLift = 0.4;
+            timeToLift = 0.45; // 0.4
         }
     }
 

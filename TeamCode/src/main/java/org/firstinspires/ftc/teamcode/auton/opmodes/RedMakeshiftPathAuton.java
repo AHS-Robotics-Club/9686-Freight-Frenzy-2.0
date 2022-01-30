@@ -9,12 +9,13 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.auton.paths.BlueMakeshiftPath;
+import org.firstinspires.ftc.teamcode.auton.paths.RedMakeshiftPath;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.DropSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 
-@Autonomous(name = "BlueMakeshiftAuton")
-public class BlueMakeshiftPathAuton extends CommandOpMode {
+@Autonomous(name = "RedMakeshiftAuton")
+public class RedMakeshiftPathAuton extends CommandOpMode {
 
     // Motors
     private SimpleServo sDropLeft;
@@ -35,7 +36,7 @@ public class BlueMakeshiftPathAuton extends CommandOpMode {
 
         dropSubsystem = new DropSubsystem(sDropLeft, sDropRight);
 
-        SequentialCommandGroup auton = new BlueMakeshiftPath(drive, dropSubsystem, mIntake, null);
+        SequentialCommandGroup auton = new RedMakeshiftPath(drive, dropSubsystem, mIntake, null);
 
         schedule(new WaitUntilCommand(this::isStarted).andThen(new WaitCommand(500)).andThen(auton));
     }

@@ -113,8 +113,8 @@ public class MainTeleOp extends CommandOpMode {
         mRightLift = new Motor(hardwareMap, "rightLift", Motor.GoBILDA.RPM_435);
 
         // Servos
-        sLeftDrop = new SimpleServo(hardwareMap, "leftDrop", -90, 90);
-        sRightDrop = new SimpleServo(hardwareMap, "rightDrop", -90, 90);
+        sLeftDrop = new SimpleServo(hardwareMap, "leftDrop", -180, 180);
+        sRightDrop = new SimpleServo(hardwareMap, "rightDrop", -180, 180);
 
         // Extra Stuff Setup
         revIMU = new RevIMU(hardwareMap);
