@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.commands.SecureBlockCommand.isSecured;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.StartEndCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -12,13 +15,16 @@ import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.commands.DropCommand;
 import org.firstinspires.ftc.teamcode.commands.DropCommandInitLift;
+import org.firstinspires.ftc.teamcode.commands.HighLiftCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommandNoPIDDown;
 import org.firstinspires.ftc.teamcode.commands.LiftCommandNoPIDFix;
 import org.firstinspires.ftc.teamcode.commands.LiftCommandNoPIDUp;
+import org.firstinspires.ftc.teamcode.commands.SecureBlockCommand;
 import org.firstinspires.ftc.teamcode.commands.drive.DriveCommand;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.DriveSubsystem;
@@ -61,8 +67,10 @@ public class MainTeleOp extends CommandOpMode {
     private LiftCommandNoPIDFix liftNoPIDFixUp_Com;
     private LiftCommandNoPIDFix liftNoPIDFixDown_Com;
     private DropCommand drop_Com;
-
     private DropCommandInitLift dropInitLift_Com;
+
+    private SecureBlockCommand secureBlock_Com;
+    private HighLiftCommand highLift_Com;
 
     // Extra Stuff
     private GamepadEx gPad1;
@@ -81,6 +89,10 @@ public class MainTeleOp extends CommandOpMode {
 
     private final double BLUE_DS = 0.4;
     private final double RED_DS = -0.4;
+
+    // Other Stuff
+    public static boolean isHigh = false;
+    public static boolean wasHigh = false;
 
     @Override
     public void initialize() {
@@ -131,7 +143,7 @@ public class MainTeleOp extends CommandOpMode {
         drive_Com = new DriveCommand(driveS, gPad1::getLeftX, gPad1::getLeftY, gPad1::getRightX, DRIVE_MULT);
 
         frontLeft.motor.setDirection(DcMotor.Direction.FORWARD);
-        // frontRight.motor.setDirection(DcMotor.Direction.FORWARD);
+        // frontRight.motor.setDirection(DcMotor.Direction.FORWARD); // TODO: Uncomment later
         backLeft.motor.setDirection(DcMotor.Direction.FORWARD);
         // backRight.motor.setDirection(DcMotor.Direction.FORWARD);
 
@@ -156,6 +168,9 @@ public class MainTeleOp extends CommandOpMode {
         liftNoPIDFixUp_Com = new LiftCommandNoPIDFix(liftNoPIDS, time, true);
         liftNoPIDFixDown_Com = new LiftCommandNoPIDFix(liftNoPIDS, time, false);
 
+        secureBlock_Com = new SecureBlockCommand(liftNoPIDS, dropS, time);
+        highLift_Com = new HighLiftCommand(liftNoPIDS, dropS, time);
+
         /*
         ▒█▀▀█ █▀▀█ █▀▄▀█ █▀▀ █▀▀█ █▀▀█ █▀▀▄
         ▒█░▄▄ █▄▄█ █░▀░█ █▀▀ █░░█ █▄▄█ █░░█
@@ -172,14 +187,19 @@ public class MainTeleOp extends CommandOpMode {
 
         // Lift
         // gPad1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(liftNoPID_Com);
-        gPad1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(liftNoPIDUp_Com);
-        gPad1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(liftNoPIDDown_Com);
+        // gPad1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(liftNoPIDUp_Com);
+        // gPad1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(liftNoPIDDown_Com);
+        gPad1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(highLift_Com); // TODO: Test high lift command
 
         gPad1.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(liftNoPIDFixDown_Com);
         gPad1.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(liftNoPIDFixUp_Com);
 
         // Drop
-        gPad1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(drop_Com);
+        // gPad1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(drop_Com);
+        // gPad1.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON).toggleWhenPressed(drop_Com);
+        gPad1.getGamepadButton(GamepadKeys.Button.BACK).toggleWhenPressed(new InstantCommand(dropS::dropThree), new InstantCommand(dropS::dropTwo));
+
+        gPad1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(secureBlock_Com); // TODO: Test new carriage
 
 
         // Slow Drivetrain
@@ -189,6 +209,11 @@ public class MainTeleOp extends CommandOpMode {
         // ));
 
         gPad1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenHeld(new DriveCommand(driveS, gPad1::getLeftX, gPad1::getLeftY, gPad1::getRightX, SLOW_MULT));
+
+        // Temporarily adding SecureBlockCommand
+        // TODO: This may not work
+        // gPad1.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON).whenPressed(secureBlock_Com);
+        // gPad1.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON).whenPressed(highLift_Com);
 
         // Sets default command for drivetrain
         register(driveS);

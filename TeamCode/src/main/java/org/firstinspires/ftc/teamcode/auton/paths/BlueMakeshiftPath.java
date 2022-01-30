@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.auton.paths;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -17,16 +18,21 @@ import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 
 import javax.annotation.Nullable;
 
+@Config
 public class BlueMakeshiftPath extends SequentialCommandGroup {
 
     private Pose2d startPose = new Pose2d(-12.0, 62.0, Math.toRadians(90.0));
     private Pose2d pose2 = new Pose2d(-12.0, 44.0, Math.toRadians(10.0));
 
-    public BlueMakeshiftPath(MecanumDriveSubsystem drive, DropSubsystem sDrop, Motor mIntake, @Nullable ElapsedTime time) {
+    public static double BACK = 17;
+    public static double TURN = 160;
+    public static double FORWARD = 35.0;
+
+    public BlueMakeshiftPath(MecanumDriveSubsystem drive, DropSubsystem sDrop, Motor mIntake, Motor dS, @Nullable ElapsedTime time) {
         drive.setPoseEstimate(startPose);
 
         Trajectory traj0 = drive.trajectoryBuilder(startPose)
-                .back(21.5) //18, 25
+                .back(BACK) //18, 25
                 .build();
 
         // Trajectory traj1 = drive.trajectoryBuilder(pose2)
@@ -40,7 +46,7 @@ public class BlueMakeshiftPath extends SequentialCommandGroup {
         //         .build();
 
         Trajectory traj1 = drive.trajectoryBuilder(traj0.end())
-                .forward(50.0)
+                .forward(FORWARD)
                 .build();
 
         // addCommands(
@@ -57,10 +63,14 @@ public class BlueMakeshiftPath extends SequentialCommandGroup {
                 new TrajectoryFollowerCommand(drive, traj0),
                 new RunCommand(sDrop::dropThree).raceWith(new WaitCommand(1000)),
                 new ParallelCommandGroup(
-                        new TurnCommand(drive, Math.toRadians(160)).andThen(new TrajectoryFollowerCommand(drive, traj1)),
+                        new TurnCommand(drive, Math.toRadians(TURN)).andThen(new TrajectoryFollowerCommand(drive, traj1)),
                         new RunCommand(sDrop::dropFour).raceWith(new WaitCommand(1000)).andThen(new RunCommand(sDrop::dropOne).raceWith(new WaitCommand(1000)).andThen(new RunCommand(() -> mIntake.set(-0.5)).raceWith(new WaitCommand(5000)).andThen(new InstantCommand(() -> mIntake.set(0)))))
                 )
-                // new TurnCommand(drive, Math.toRadians(-200)),
+//                new TurnCommand(drive, Math.toRadians(360 - TURN)),
+//                new TrajectoryFollowerCommand(drive, traj1)
+//                .andThen(new RunCommand(() -> dS.set(0.4)) // Run ducky spinner motor after going there
+//                .raceWith(new WaitCommand(2950)))
+        // new TurnCommand(drive, Math.toRadians(-200)),
         );
     }
 }

@@ -19,7 +19,7 @@ public class BlueMakeshiftPathAuton extends CommandOpMode {
     // Motors
     private SimpleServo sDropLeft;
     private SimpleServo sDropRight;
-    private Motor mIntake;
+    private Motor mIntake,dS;
 
     // Subsystems
     private MecanumDriveSubsystem drive;
@@ -32,10 +32,11 @@ public class BlueMakeshiftPathAuton extends CommandOpMode {
         sDropLeft = new SimpleServo(hardwareMap, "leftDrop", -90, 90);
         sDropRight = new SimpleServo(hardwareMap, "rightDrop", -90, 90);
         mIntake = new Motor(hardwareMap, "intake");
+        dS = new Motor(hardwareMap, "duckySpinner");
 
         dropSubsystem = new DropSubsystem(sDropLeft, sDropRight);
 
-        SequentialCommandGroup auton = new BlueMakeshiftPath(drive, dropSubsystem, mIntake, null);
+        SequentialCommandGroup auton = new BlueMakeshiftPath(drive, dropSubsystem, mIntake, dS, null);
 
         schedule(new WaitUntilCommand(this::isStarted).andThen(new WaitCommand(500)).andThen(auton));
     }

@@ -32,11 +32,11 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void execute(){
-        // mecDrive.drive(m_strafe.getAsDouble() * 0.75 * multiplier,
-        //         m_forward.getAsDouble() * 0.75 * multiplier,
-        //         m_turn.getAsDouble() * 0.74 * multiplier);
-        mecDrive.drive(m_strafe.getAsDouble() * 0.8 * multiplier,
-                m_forward.getAsDouble() * 0.8 * multiplier,
-                m_turn.getAsDouble() * 0.78 * multiplier);
+//        mecDrive.drive(m_strafe.getAsDouble() * 0.8 * multiplier,
+//                m_forward.getAsDouble() * 0.8 * multiplier,
+//                m_turn.getAsDouble() * 0.78 * multiplier);
+        mecDrive.drive(m_strafe.getAsDouble() * 0.9 * multiplier,
+                m_forward.getAsDouble() * 0.9 * multiplier,
+                m_turn.getAsDouble() * 0.88 * multiplier);
     }
 }

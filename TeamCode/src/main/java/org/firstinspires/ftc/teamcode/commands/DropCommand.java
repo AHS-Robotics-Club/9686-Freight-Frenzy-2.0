@@ -19,14 +19,12 @@ public class DropCommand extends CommandBase {
             dropS.dropTwo();
         else if (dropCount == 1)
             dropS.dropThree();
-        else if (dropCount == 2)
-            dropS.dropFour();
         else
             dropS.dropOne();
     }
 
     public void end(boolean interrupted) {
-        if (dropCount != 3)
+        if (dropCount != 2)
             dropCount++;
         else
             dropCount = 0;

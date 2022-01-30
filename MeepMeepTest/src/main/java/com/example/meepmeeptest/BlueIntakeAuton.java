@@ -14,7 +14,7 @@ public class BlueIntakeAuton {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(73.17, 73.17, Math.toRadians(360), Math.toRadians(360), 9)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(9.0, 62.0, 0.0))
+                        drive.trajectorySequenceBuilder(new Pose2d(9.0, 62.0, Math.toRadians(270.0)))
 //                                .strafeLeft(5.0)
                                 .lineToLinearHeading(new Pose2d(-6.0, 34.0, Math.toRadians(60.0))) // Drop init freight
 //                                .splineTo(new Vector2d(-6.0, 34.0), Math.toRadians(60.0))
