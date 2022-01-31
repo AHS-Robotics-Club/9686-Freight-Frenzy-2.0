@@ -84,7 +84,7 @@ public class BlueIntakePath extends SequentialCommandGroup {
                 new TurnCommand(drive, Math.toRadians(100.0)) // Turn back towards shared hub
                     .alongWith(new InstantCommand(drop::dropTwo) // Get ready to drop freight
                     .andThen(new InstantCommand(drop::dropThree))), // Drop freight
-                new InstantCommand(() -> intake.set(0.5)), // Outtake to allow for crriage to go in
+                new InstantCommand(() -> intake.set(0.5)), // Outtake to allow for carriage to go in
                 new TrajectoryFollowerCommand(drive, traj1) // Go back to orig pos
                         .alongWith(new InstantCommand(drop::dropFour)), // Move to pos after dropping (not needed)
                 new ParallelCommandGroup( // Stop intake to allow for carriage to go to starting pos for intaking

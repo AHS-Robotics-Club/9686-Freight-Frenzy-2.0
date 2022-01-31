@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.FunctionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.subsystems.DropSubsystem;
@@ -54,7 +55,7 @@ public class SecureBlockCommand extends SequentialCommandGroup {
                         () -> time.seconds() >= liftTime,
                         lift
                 ),
-                lift.getLevel() == 0 ? new InstantCommand(drop::dropTwo) : new InstantCommand(drop::dropOne)
+                lift.getLevel() == 1 ? new InstantCommand(drop::dropTwo).raceWith(new WaitCommand(1000)) : new InstantCommand(drop::dropOne).raceWith(new WaitCommand(1000))
         );
     }
 
