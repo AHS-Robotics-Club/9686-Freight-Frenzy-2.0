@@ -155,4 +155,15 @@ public class FFCapstoneDetector {
         CENTER
     }
 
+    public int placementId() {
+        switch (getPlacement()) {
+            case LEFT:
+                return 0;
+            case CENTER:
+                return 1;
+            default:
+                return 2;
+        }
+    }
+
 }
