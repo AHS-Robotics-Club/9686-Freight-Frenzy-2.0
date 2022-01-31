@@ -26,7 +26,7 @@ class LevelConstants {
 public class TestLiftLevels extends CommandOpMode {
 
     private LiftSubsystemNoPID lift;
-    private DropCommand drop;
+    private DropSubsystem drop;
     private ElapsedTime time;
 
     @Override
@@ -35,11 +35,9 @@ public class TestLiftLevels extends CommandOpMode {
                 new Motor(hardwareMap, "leftLift", Motor.GoBILDA.RPM_435),
                 new Motor(hardwareMap, "leftLift", Motor.GoBILDA.RPM_435)
         );
-        drop = new DropCommand(
-                new DropSubsystem(
-                    new SimpleServo(hardwareMap, "leftDrop", -180, 180),
-                    new SimpleServo(hardwareMap, "rightDrop", -180, 180)
-                )
+        drop = new DropSubsystem(
+                new SimpleServo(hardwareMap, "leftDrop", -180, 180),
+                new SimpleServo(hardwareMap, "rightDrop", -180, 180)
         );
         time = new ElapsedTime();
 
@@ -52,8 +50,11 @@ public class TestLiftLevels extends CommandOpMode {
 
         schedule(new WaitUntilCommand(this::isStarted).andThen(new SequentialCommandGroup(
                 new InstantCommand(() -> lift.motorUp()).andThen(new WaitCommand(LevelConstants.MID_GOAL_UP).andThen(new InstantCommand(() -> lift.motorStop()))),
+                new InstantCommand(() -> drop.dropThree()),
                 new InstantCommand(() -> lift.motorDown()).andThen(new WaitCommand(LevelConstants.MID_GOAL_DOWN).andThen(new InstantCommand(() -> lift.motorStop()))),
+                new InstantCommand(() -> drop.dropTwo()),
                 new InstantCommand(() -> lift.motorUp()).andThen(new WaitCommand(LevelConstants.HIGH_GOAL_UP).andThen(new InstantCommand(() -> lift.motorStop()))),
+                new InstantCommand(() -> drop.dropThree()),
                 new InstantCommand(() -> lift.motorDown()).andThen(new WaitCommand(LevelConstants.HIGH_GOAL_DOWN).andThen(new InstantCommand(() -> lift.motorStop())))
         )));
     }
