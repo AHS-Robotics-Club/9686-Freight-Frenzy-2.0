@@ -35,5 +35,7 @@ public class BlueCarouselAuton {
                 .setBackgroundAlpha(0.95f)
                 .addEntity(myBot)
                 .start();
+
+        myBot.setDimensions(13.0, 17.0);
     }
 }
