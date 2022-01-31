@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.commands.DropCommand;
 import org.firstinspires.ftc.teamcode.commands.DropCommandInitLift;
+import org.firstinspires.ftc.teamcode.commands.HighLiftCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftCommandNoPIDDown;
 import org.firstinspires.ftc.teamcode.commands.LiftCommandNoPIDFix;
 import org.firstinspires.ftc.teamcode.commands.LiftCommandNoPIDUp;
@@ -65,6 +66,7 @@ public class MainTeleOp extends CommandOpMode {
     private DropCommandInitLift dropInitLift_Com;
 
     private SecureBlockCommand secureBlock_Com;
+    private HighLiftCommand highLift_Com;
 
     // Extra Stuff
     private GamepadEx gPad1;
@@ -159,6 +161,7 @@ public class MainTeleOp extends CommandOpMode {
         liftNoPIDFixDown_Com = new LiftCommandNoPIDFix(liftNoPIDS, time, false);
 
         secureBlock_Com = new SecureBlockCommand(liftNoPIDS, dropS, time);
+        highLift_Com = new HighLiftCommand(liftNoPIDS, time);
 
         /*
         ▒█▀▀█ █▀▀█ █▀▄▀█ █▀▀ █▀▀█ █▀▀█ █▀▀▄
@@ -197,6 +200,7 @@ public class MainTeleOp extends CommandOpMode {
         // Temporarily adding SecureBlockCommand
         // TODO: This may not work
         gPad1.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON).whenPressed(secureBlock_Com);
+        gPad1.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON).whenPressed(highLift_Com);
 
         // Sets default command for drivetrain
         register(driveS);
