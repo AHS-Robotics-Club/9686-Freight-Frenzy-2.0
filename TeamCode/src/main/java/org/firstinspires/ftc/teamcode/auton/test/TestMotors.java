@@ -8,7 +8,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@Autonomous(name = "Motor Test")
+@Autonomous(name = "MotorTest")
 public class TestMotors extends CommandOpMode {
 
     private Motor frontLeft, backLeft, frontRight, backRight;

@@ -26,7 +26,7 @@ class LevelConstants {
     static long HIGH_GOAL_DOWN = 750;
 }
 
-@Autonomous(name = "Lift Test")
+@Autonomous(name = "LiftTest")
 public class TestLiftLevels extends CommandOpMode {
 
     private LiftSubsystemNoPID lift;
