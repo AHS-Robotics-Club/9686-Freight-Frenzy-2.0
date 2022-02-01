@@ -17,7 +17,7 @@ public class TestVision extends CommandOpMode {
     @Override
     public void initialize() {
 
-        capstoneDetector = new FFCapstoneDetector(hardwareMap, "bigbrother");
+        capstoneDetector = new FFCapstoneDetector(hardwareMap, "bigBrother");
         capstoneDetector.init();
 
         FtcDashboard.getInstance().startCameraStream(capstoneDetector.getCamera(), 30);

@@ -16,17 +16,23 @@ public class BlueCarouselAuton {
                 .setDimensions(13, 17)
                 .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(new Pose2d(-32.0, 62.0, Math.toRadians(270.0)))
-//                                        .turn(Math.toRadians(-60.0))
-//                                        .back(23.0)
                                         .lineToLinearHeading(new Pose2d(-21.0, 34.0, Math.toRadians(120.0)))
-//                                        .forward(23.0)
-//                                        .turn(Math.toRadians(60.
-                                        .lineToLinearHeading(new Pose2d(-32.0, 57.0, Math.toRadians(180.0)))
-                                        .strafeRight(7.0)
-//                                        .lineToLinearHeading(new Pose2d(-60.0, 62.0, Math.toRadians(180.0))).waitSeconds(1.5)
-                                        .forward(28.0).waitSeconds(1.5)
-//                                        .forward(27.0).waitSeconds(1.5)
-                                        .strafeLeft(27.0)
+
+                                        /* Adjust Using Wall */
+                                        // .lineToLinearHeading(new Pose2d(-32.0, 57.0, Math.toRadians(180.0)))
+                                        // .strafeRight(7.0)
+                                        // .forward(28.0).waitSeconds(1.5)
+                                        // .strafeLeft(27.0)
+                                        // .build()
+
+                                        // Go directly to ducky spinner
+                                        .lineToLinearHeading(new Pose2d(-62.0, 58.0, Math.toRadians(140.0)))
+
+                                        .lineToLinearHeading(new Pose2d(-60.0, 35.5, Math.toRadians(0))) // Park
+                                        .forward(37)
+                                        .turn(Math.toRadians(130.0))
+
+                                        .lineToLinearHeading(new Pose2d(-60.0, 35.5, Math.toRadians(0))) // Park
                                         .build()
                 );
 

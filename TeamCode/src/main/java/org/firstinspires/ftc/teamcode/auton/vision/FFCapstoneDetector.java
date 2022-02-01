@@ -92,17 +92,17 @@ public class FFCapstoneDetector {
                     }
 
                     /* TODO: Fix this so that onError works properly */
-                    // @Override
-                    // public void onError(int errorCode) {
+                    @Override
+                    public void onError(int errorCode) {
 
-                    //     synchronized (sync) {
-                    //         detectorState = DetectorState.INIT_FAILURE_NOT_RUNNING; //Set our state
-                    //     }
+                        synchronized (sync) {
+                            detectorState = DetectorState.INIT_FAILURE_NOT_RUNNING; //Set our state
+                        }
 
-                    //     RobotLog.addGlobalWarningMessage("Warning: Camera device failed to open with EasyOpenCv error: " +
-                    //             ((errorCode == -1) ? "CAMERA_OPEN_ERROR_FAILURE_TO_OPEN_CAMERA_DEVICE" : "CAMERA_OPEN_ERROR_POSTMORTEM_OPMODE")
-                    //     ); //Warn the user about the issue
-                    // }
+                        RobotLog.addGlobalWarningMessage("Warning: Camera device failed to open with EasyOpenCv error: " +
+                                ((errorCode == -1) ? "CAMERA_OPEN_ERROR_FAILURE_TO_OPEN_CAMERA_DEVICE" : "CAMERA_OPEN_ERROR_POSTMORTEM_OPMODE")
+                        ); //Warn the user about the issue
+                    }
                 });
             }
         }
