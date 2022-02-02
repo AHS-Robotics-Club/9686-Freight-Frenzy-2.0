@@ -30,31 +30,32 @@ public class SecureBlockCommand extends SequentialCommandGroup {
         liftTime = 0.0;
 
         addCommands(
-                new FunctionalCommand(
-                        () -> addRequirements(lift),
-                        () -> {
-                            time.reset();
-                            if(lift.getLevel() == 0) {
-                                lift.motorUp();
-                                liftTime = 0.25;
-                            } else if (lift.getLevel() == 1) {
-                                lift.motorDown();
-                                liftTime = 0.2;
-                            }
-                        },
-                        interrupted -> {
-                            lift.motorStop();
-                            if (lift.getLevel() == 0) {
-                                lift.addLevel();
-                                isSecured = true;
-                            } else if (lift.getLevel() == 1) {
-                                lift.resetLevel();
-                                isSecured = false;
-                            }
-                        },
-                        () -> time.seconds() >= liftTime,
-                        lift
-                ),
+                // new FunctionalCommand(
+                //         () -> addRequirements(lift),
+                //         () -> {
+                //             time.reset();
+                //             if(lift.getLevel() == 0) {
+                //                 lift.motorUp();
+                //                 liftTime = 0.25;
+                //             } else if (lift.getLevel() == 1) {
+                //                 lift.motorDown();
+                //                 liftTime = 0.2;
+                //             }
+                //         },
+                //         interrupted -> {
+                //             lift.motorStop();
+                //             if (lift.getLevel() == 0) {
+                //                 lift.addLevel();
+                //                 isSecured = true;
+                //             } else if (lift.getLevel() == 1) {
+                //                 lift.resetLevel();
+                //                 isSecured = false;
+                //             }
+                //         },
+                //         () -> time.seconds() >= liftTime,
+                //         lift
+                // ),
+                new LiftCommandNoPIDUp(lift, time),
                 lift.getLevel() == 1 ? new InstantCommand(drop::dropTwo).raceWith(new WaitCommand(1000)) : new InstantCommand(drop::dropOne).raceWith(new WaitCommand(1000))
         );
     }

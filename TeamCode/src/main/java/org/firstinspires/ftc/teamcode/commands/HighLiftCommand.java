@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystemNoPID;
 
 class LiftConstants {
-    static double UP_TIME = 0.6;
-    static double DOWN_TIME = 0.83;
+    static double UP_TIME = 1;
+    static double DOWN_TIME = 0.55;
 }
 
 public class HighLiftCommand extends CommandBase {

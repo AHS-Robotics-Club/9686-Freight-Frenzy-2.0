@@ -25,7 +25,8 @@ public class FFCapstoneDetector {
     private FFCapstonePipeline capstonePipeline;
     private final HardwareMap hardwareMap;
 
-    private int WIDTH = 432;
+    // private int WIDTH = 432;
+    private int WIDTH = 424;
     private int HEIGHT = 240;
     private double thresholdRight = 2 * WIDTH / 3.0;
     private double thresholdLeft = WIDTH / 3.0;
