@@ -13,6 +13,7 @@ public class BlueCarouselAuton {
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+
                 .setDimensions(13, 17)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-32.0, 62.0, Math.toRadians(270.0)))
@@ -32,6 +33,7 @@ public class BlueCarouselAuton {
                                 .forward(37)
                                 .turn(Math.toRadians(130.0))
 
+
                                 .lineToLinearHeading(new Pose2d(-60.0, 35.5, Math.toRadians(0))) // Park
                                         .build()
                 );
@@ -43,7 +45,5 @@ public class BlueCarouselAuton {
                 .setBackgroundAlpha(0.95f)
                 .addEntity(myBot)
                 .start();
-
-        myBot.setDimensions(13.0, 17.0);
     }
 }

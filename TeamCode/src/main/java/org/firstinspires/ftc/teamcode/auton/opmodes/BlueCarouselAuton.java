@@ -43,7 +43,7 @@ public class BlueCarouselAuton extends CommandOpMode{
 
         SequentialCommandGroup auton = new BlueIntakePath(drive, dropSubsystem, mIntake);
 
-        
+
         schedule(new WaitUntilCommand(this::isStarted).andThen(new WaitCommand(500)).andThen(auton));
     }
 }
