@@ -21,31 +21,28 @@ import java.time.Instant;
 @Config
 public class BlueCarouselPath extends SequentialCommandGroup {
 
-    private Pose2d startPose = new Pose2d(-32.0, 62.0, 270.0);
+    private Pose2d startPose = new Pose2d(-32.0, 62.0, Math.toRadians(270.0));
 
     public BlueCarouselPath(MecanumDriveSubsystem drive, DropSubsystem drop, Motor intake, DuckySpinnerSubsystem duckySpinner) {
         drive.setPoseEstimate(startPose);
 
-        Trajectory traj0 = drive.trajectoryBuilder(startPose) // Drop init freight
-//                .lineToLinearHeading(new Pose2d(-6.0, 34.0, Math.toRadians(60.0)))
-//                .lineToLinearHeading(new Pose2d(0.0, 30.0, Math.toRadians(60.0)))
-//                .lineToLinearHeading(new Pose2d(6.0, 30.0, Math.toRadians(60.0)))
+        Trajectory traj0 = drive.trajectoryBuilder(startPose) // Go to allianace hub
                 .lineToLinearHeading(new Pose2d(-21.0, 34.0, Math.toRadians(120.0)))
                 .build();
 
-        Trajectory traj1 = drive.trajectoryBuilder(traj0.end()) // Go back to start pos from team hub
+        Trajectory traj1 = drive.trajectoryBuilder(traj0.end()) // Go to ducky spinner
                 .lineToLinearHeading(new Pose2d(-62.0, 58.0, Math.toRadians(140.0)))
                 .build();
 
-        Trajectory traj2 = drive.trajectoryBuilder(traj1.end()) // Go into warehouse
+        Trajectory traj2 = drive.trajectoryBuilder(traj1.end()) // Go to parking location
                 .lineToLinearHeading(new Pose2d(-60.0, 35.5, Math.toRadians(0))) // Park
                 .build();
 
-        Trajectory traj3 = drive.trajectoryBuilder(traj2.end()) // Realign against wall
+        Trajectory traj3 = drive.trajectoryBuilder(traj2.end()) // Move forward to pick up freight
                 .forward(37)
                 .build();
 
-        Trajectory traj4 = drive.trajectoryBuilder(traj3.end()) // Exit warehouse
+        Trajectory traj4 = drive.trajectoryBuilder(traj3.end()) // Return to parking location
                 .lineToLinearHeading(new Pose2d(-60.0, 35.5, Math.toRadians(0))) // Park
                 .build();
 
@@ -57,7 +54,8 @@ public class BlueCarouselPath extends SequentialCommandGroup {
                 .andThen(new WaitCommand(1200)          // Wait so that block doesn't get launched
                 .andThen(new InstantCommand(drop::dropThree)))), // Bring down carriage
 
-              new InstantCommand(() -> intake.set(-0.5)).alongWith(new InstantCommand(drop::dropOne).alongWith(new WaitCommand(1000))),                   // Set intake to pick up any items
+              new InstantCommand(() -> intake.set(0)), // Set intake to put back carriage
+              new InstantCommand(drop::dropOne).alongWith(new WaitCommand(1000)), // Drop carriage
               new TrajectoryFollowerCommand(drive, traj1)                   // Go to the carousel
                 .andThen(new RunCommand(() -> duckySpinner.run(0.4)) // Run ducky spinner motor after going there
                         .raceWith(new WaitCommand(2950))),          // Wait till the duck drops
@@ -74,50 +72,5 @@ public class BlueCarouselPath extends SequentialCommandGroup {
 
               new TrajectoryFollowerCommand(drive, traj4)                   // Go to parking
         );
-                //region COLLAPSE
-                /* Drop Preloaded Freight
-                new InstantCommand(() -> intake.set(-0.5)), // Start intake to take out carriage
-                new TrajectoryFollowerCommand(drive, traj0) // Go to team hub
-                        .alongWith(new InstantCommand(drop::dropTwo) // TODO Pick up intake
-                        .andThen(new WaitCommand(1200) // Stall time so no launch
-                        .andThen(new InstantCommand(drop::dropThree)))), // Drop freight
-
-                // Intake freight from warehouse
-                new InstantCommand(() -> intake.set(0.5)), // Idk why this is here
-                new TrajectoryFollowerCommand(drive, traj1) // Come back to start pos
-                    .alongWith(new InstantCommand(drop::dropFour)), // Move to pos after dropping (not needed)
-                new ParallelCommandGroup( // Stop intake to allow for carriage to go to starting pos for intaking
-                    new RunCommand(() -> intake.set(0)).raceWith(new WaitCommand(1000)),
-                    new InstantCommand(drop::dropOne)
-                ),
-                new InstantCommand(() -> intake.set(-0.45)), // Start intake for intaking
-                new TrajectoryFollowerCommand(drive, traj2), // Go inside warehouse
-                new WaitCommand(1000), // Stall to allow for blocks to be taken in
-                new TrajectoryFollowerCommand(drive, traj3) // Strafe to left to adjust bot
-                    .alongWith(new InstantCommand(() -> intake.set(1))), // Rapidly do outtake to eject extra freight
-                new TrajectoryFollowerCommand(drive, traj4) // Go back to orig pos
-                    .alongWith(new InstantCommand(() -> intake.set(1))), // Same as alongWith line above, not really needed
-                new InstantCommand(() -> intake.set(0)), // This is useless
-
-                // Drop new freight
-                new InstantCommand(() -> intake.set(-0.5)), // Start intake to take out carriage
-                //new TrajectoryFollowerCommand(drive, traj0_1), // Go to shared hub
-                new TurnCommand(drive, Math.toRadians(100.0)) // Turn back towards shared hub
-                    .alongWith(new InstantCommand(drop::dropTwo) // Get ready to drop freight
-                    .andThen(new InstantCommand(drop::dropThree))), // Drop freight
-                new InstantCommand(() -> intake.set(0.5)), // Outtake to allow for carriage to go in
-                new TrajectoryFollowerCommand(drive, traj1) // Go back to orig pos
-                        .alongWith(new InstantCommand(drop::dropFour)), // Move to pos after dropping (not needed)
-                new ParallelCommandGroup( // Stop intake to allow for carriage to go to starting pos for intaking
-                        new RunCommand(() -> intake.set(0)).raceWith(new WaitCommand(1000)),
-                        new InstantCommand(drop::dropOne)
-                ),
-                new TrajectoryFollowerCommand(drive, traj2) // Go into warehouse for parking
-                    .alongWith(new InstantCommand(() -> intake.set(-0.5))), // Runs intake to never take in freight
-                new WaitCommand(1000), // Stall time
-                new InstantCommand(() -> intake.set(1)).raceWith(new WaitCommand(1000)) // Runs outtake for rest of auton just in case we take in extra freight
-        );
-                 */
-                //endregion
     }
 }
