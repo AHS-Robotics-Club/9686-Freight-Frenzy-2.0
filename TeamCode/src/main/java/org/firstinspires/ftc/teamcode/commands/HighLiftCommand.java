@@ -3,12 +3,8 @@ package org.firstinspires.ftc.teamcode.commands;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystemNoPID;
-
-class LiftConstants {
-    static double UP_TIME = 1;
-    static double DOWN_TIME = 0.55;
-}
 
 public class HighLiftCommand extends CommandBase {
 
@@ -27,10 +23,10 @@ public class HighLiftCommand extends CommandBase {
     public void initialize() {
         if(lift.getLevel() == 1) {
             lift.motorUp();
-            liftTime = LiftConstants.UP_TIME;
+            liftTime = Constants.LiftConstants.HIGH_GOAL_UP;
         } else if (lift.getLevel() == 2) {
             lift.motorDown();
-            liftTime = LiftConstants.DOWN_TIME;
+            liftTime = Constants.LiftConstants.HIGH_GOAL_DOWN;
         }
     }
 
