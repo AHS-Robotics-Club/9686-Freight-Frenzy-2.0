@@ -2,6 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 public final class Constants {
 
+    public enum HubLevel {
+        LOW,
+        MID,
+        HIGH
+    }
+
     // Time is in milliseconds
     public static class LiftConstants {
         public static final long MID_GOAL_UP = 1000;

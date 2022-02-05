@@ -8,10 +8,13 @@ import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.auton.paths.BlueCarouselPath;
 import org.firstinspires.ftc.teamcode.auton.paths.BlueIntakePath;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.DropSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DuckySpinnerSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystemNoPID;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 
 @Autonomous(name="BlueCarouselAuton")
@@ -25,6 +28,7 @@ public class BlueCarouselAuton extends CommandOpMode{
     private MecanumDriveSubsystem drive;
     private DuckySpinnerSubsystem duckySpinnerSubsystem;
     private DropSubsystem dropSubsystem;
+    private LiftSubsystemNoPID liftSubsystemNoPID;
 
     @Override
     public void initialize() {
@@ -40,9 +44,10 @@ public class BlueCarouselAuton extends CommandOpMode{
         dropSubsystem = new DropSubsystem(sLeftDrop, sRightDrop);
         drive = new MecanumDriveSubsystem(new SampleMecanumDrive(hardwareMap), false);
         duckySpinnerSubsystem = new DuckySpinnerSubsystem(mDuckySpinner);
+        liftSubsystemNoPID = new LiftSubsystemNoPID(mLeftLift, mRightLift);
 
-        SequentialCommandGroup auton = new BlueIntakePath(drive, dropSubsystem, mIntake);
-
+        // TODO: Add vision
+        SequentialCommandGroup auton = new BlueCarouselPath(Constants.HubLevel.LOW, drive, dropSubsystem, mIntake, duckySpinnerSubsystem, liftSubsystemNoPID);
 
         schedule(new WaitUntilCommand(this::isStarted).andThen(new WaitCommand(500)).andThen(auton));
     }

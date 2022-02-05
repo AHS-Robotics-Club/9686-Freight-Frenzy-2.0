@@ -20,12 +20,6 @@ import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 
 import java.time.Instant;
 
-enum HubLevel {
-    LOW,
-    MID,
-    HIGH
-}
-
 @Config
 public class BlueCarouselPath extends SequentialCommandGroup {
 
@@ -33,7 +27,7 @@ public class BlueCarouselPath extends SequentialCommandGroup {
     private long LIFT_UP;
     private long LIFT_DOWN;
 
-    public BlueCarouselPath(HubLevel level, MecanumDriveSubsystem drive, DropSubsystem drop, Motor intake, DuckySpinnerSubsystem duckySpinner, LiftSubsystemNoPID lift) {
+    public BlueCarouselPath(Constants.HubLevel level, MecanumDriveSubsystem drive, DropSubsystem drop, Motor intake, DuckySpinnerSubsystem duckySpinner, LiftSubsystemNoPID lift) {
 
         switch(level) {
             case MID:
