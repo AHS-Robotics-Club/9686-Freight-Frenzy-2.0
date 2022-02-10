@@ -63,8 +63,8 @@ public class BlueIntakePath extends SequentialCommandGroup {
 
                 /* Intake freight from warehouse */
                 new InstantCommand(() -> intake.set(0.5)), // Idk why this is here
-                new TrajectoryFollowerCommand(drive, traj1) // Come back to start pos
-                    .alongWith(new InstantCommand(drop::dropFour)), // Move to pos after dropping (not needed)
+                new TrajectoryFollowerCommand(drive, traj1), // Come back to start pos
+                    //.alongWith(new InstantCommand(drop::dropFour)), // Move to pos after dropping (not needed)
                 new ParallelCommandGroup( // Stop intake to allow for carriage to go to starting pos for intaking
                     new RunCommand(() -> intake.set(0)).raceWith(new WaitCommand(1000)),
                     new InstantCommand(drop::dropOne)

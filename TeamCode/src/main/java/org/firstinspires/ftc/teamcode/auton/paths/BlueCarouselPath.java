@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.auton.paths;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -19,6 +20,7 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystemNoPID;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 
 import java.time.Instant;
+import java.util.function.BooleanSupplier;
 
 @Config
 public class BlueCarouselPath extends SequentialCommandGroup {
@@ -40,6 +42,8 @@ public class BlueCarouselPath extends SequentialCommandGroup {
                 LIFT_UP = 0;
                 LIFT_DOWN = 0;
         }
+
+        BooleanSupplier isLow = () -> level == Constants.HubLevel.LOW;
 
         drive.setPoseEstimate(startPose);
         Trajectory traj0 = drive.trajectoryBuilder(startPose) // Go to allianace hub
@@ -72,10 +76,18 @@ public class BlueCarouselPath extends SequentialCommandGroup {
                 //endregion
               new TrajectoryFollowerCommand(drive, traj0)       // Go to Alliance Hub
                 .alongWith(new InstantCommand(drop::dropTwo),    // Set carriage parallel to ground so it doesn't fall out
-              new InstantCommand(lift::motorUp).andThen(new WaitCommand(LIFT_UP)).andThen(new InstantCommand(lift::motorStop))), // Lift up lift to right level
+              new ConditionalCommand(
+                new WaitCommand(100),
+                new InstantCommand(lift::motorUp).andThen(new WaitCommand(LIFT_UP)).andThen(new InstantCommand(lift::motorStop)), // Lift up lift to right level
+                isLow
+              ),
               new InstantCommand(drop::dropThree), // Drop block
 
-              new InstantCommand(lift::motorDown).andThen(new WaitCommand(LIFT_DOWN)).andThen(new InstantCommand(lift::motorStop)), // Bring down lift to init pos
+              new ConditionalCommand(
+                      new WaitCommand(100),
+                      new InstantCommand(lift::motorDown).andThen(new WaitCommand(LIFT_DOWN)).andThen(new InstantCommand(lift::motorStop)), // Bring down lift to init pos
+                      isLow
+              ),
 
               new ParallelCommandGroup(
                   new RunCommand(() -> intake.set(0)).raceWith(new WaitCommand(1000)), // Set intake to put back carriage
@@ -99,13 +111,21 @@ public class BlueCarouselPath extends SequentialCommandGroup {
 
               new TurnCommand(drive, Math.toRadians(130.0))                 // Turn back to shared hub
                 .andThen(new WaitCommand(1200),                      // Wait so element doesn't launch
-              new InstantCommand(lift::motorUp).andThen(new WaitCommand(LIFT_UP)).andThen(new InstantCommand(lift::motorStop))), // Lift up lift to right level
+              new ConditionalCommand(
+                      new WaitCommand(100),
+                      new InstantCommand(lift::motorUp).andThen(new WaitCommand(LIFT_UP)).andThen(new InstantCommand(lift::motorStop)), // Lift up lift to right level
+                      isLow
+              ),
               new InstantCommand(drop::dropThree), // Drop block
-              new InstantCommand(lift::motorDown).andThen(new WaitCommand(LIFT_DOWN)).andThen(new InstantCommand(lift::motorStop)), // Bring down lift to init pos
+              new ConditionalCommand(
+                      new WaitCommand(100),
+                      new InstantCommand(lift::motorDown).andThen(new WaitCommand(LIFT_DOWN)).andThen(new InstantCommand(lift::motorStop)), // Bring down lift to init pos
+                      isLow
+              ),
 
               new TrajectoryFollowerCommand(drive, traj4),                   // Go to parking
               new InstantCommand(() -> intake.set(0)), // Stop intake
               new InstantCommand(drop::dropOne) // Reset carriage
-        );
+        )));
     }
 }
