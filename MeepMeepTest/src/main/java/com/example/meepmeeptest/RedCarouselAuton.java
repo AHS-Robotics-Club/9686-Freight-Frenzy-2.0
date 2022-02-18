@@ -27,10 +27,10 @@ public class RedCarouselAuton {
                                 // .build()
 
                                 // Go directly to ducky spinner
-                                .lineToLinearHeading(new Pose2d(-62.0, -58.0, Math.toRadians(220.0)))
+                                .lineToLinearHeading(new Pose2d(-62.0, -58.0, Math.toRadians(270.0)))
 
                                 .lineToLinearHeading(new Pose2d(-60.0, -35.5, Math.toRadians(0))) // Park
-                                .lineToLinearHeading(new Pose2d(-28.0, -62.0, Math.toRadians(270.0)))
+                                .forward(37)
                                 .turn(Math.toRadians(230.0))
 
 
