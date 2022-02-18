@@ -10,21 +10,9 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.commands.DropCommand;
+import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.DropSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystemNoPID;
-
-// Time is in milliseconds
-class LevelConstants {
-//    static long MID_GOAL_UP = 500;
-//    static long MID_GOAL_DOWN = 550;
-//    static long HIGH_GOAL_UP = 800;
-//    static long HIGH_GOAL_DOWN = 850;
-    static long MID_GOAL_UP = 1000;
-    static long MID_GOAL_DOWN = 550;
-    static long HIGH_GOAL_UP = 1600;
-    static long HIGH_GOAL_DOWN = 750;
-}
 
 @Autonomous(name = "LiftTest")
 public class TestLiftLevels extends CommandOpMode {
@@ -53,13 +41,13 @@ public class TestLiftLevels extends CommandOpMode {
         // ));
 
         schedule(new WaitUntilCommand(this::isStarted).andThen(new SequentialCommandGroup(
-                new InstantCommand(() -> lift.motorUp()).andThen(new WaitCommand(LevelConstants.MID_GOAL_UP).andThen(new InstantCommand(() -> lift.motorStop()))),
+                new InstantCommand(() -> lift.motorUp()).andThen(new WaitCommand((long) Constants.LiftConstants.MID_GOAL_UP).andThen(new InstantCommand(() -> lift.motorStop()))),
                 new InstantCommand(() -> drop.dropThree()).andThen(new WaitCommand(2000)),
-                new InstantCommand(() -> lift.motorDown()).andThen(new WaitCommand(LevelConstants.MID_GOAL_DOWN).andThen(new InstantCommand(() -> lift.motorStop()))),
+                new InstantCommand(() -> lift.motorDown()).andThen(new WaitCommand((long) Constants.LiftConstants.MID_GOAL_DOWN).andThen(new InstantCommand(() -> lift.motorStop()))),
                 new InstantCommand(() -> drop.dropTwo()).andThen(new WaitCommand(2000)),
-                new InstantCommand(() -> lift.motorUp()).andThen(new WaitCommand(LevelConstants.HIGH_GOAL_UP).andThen(new InstantCommand(() -> lift.motorStop()))),
+                new InstantCommand(() -> lift.motorUp()).andThen(new WaitCommand((long) Constants.LiftConstants.HIGH_GOAL_UP).andThen(new InstantCommand(() -> lift.motorStop()))),
                 new InstantCommand(() -> drop.dropThree()).andThen(new WaitCommand(2000)),
-                new InstantCommand(() -> lift.motorDown()).andThen(new WaitCommand(LevelConstants.HIGH_GOAL_DOWN).andThen(new InstantCommand(() -> lift.motorStop()))),
+                new InstantCommand(() -> lift.motorDown()).andThen(new WaitCommand((long) Constants.LiftConstants.HIGH_GOAL_DOWN).andThen(new InstantCommand(() -> lift.motorStop()))),
                 new InstantCommand(() -> drop.dropFour()).andThen(new WaitCommand(2500))
         )));
     }

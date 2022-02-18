@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.auton.test;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.auton.vision.FFCapstoneDetector;
 
+@Config
 @Autonomous(name = "TestVision")
 public class TestVision extends CommandOpMode {
 
