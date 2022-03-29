@@ -83,8 +83,8 @@ public class MainTeleOp extends CommandOpMode {
     private final double INTAKE_MULT = 0.45;
     private final double OUTTAKE_MULT = -0.45;
 
-    private final double BLUE_DS = 0.4;
-    private final double RED_DS = -0.4;
+    private final double BLUE_DS = 0.1;
+    private final double RED_DS = -0.1;
 
     @Override
     public void initialize() {
