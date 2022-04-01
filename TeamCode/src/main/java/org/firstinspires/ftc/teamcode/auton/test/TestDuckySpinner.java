@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DuckySpinnerSubsystem;
 @Autonomous(name = "TestDuckySpinner")
 public class TestDuckySpinner extends CommandOpMode {
     private DuckySpinnerSubsystem duckySpinnerSubsystem;
-    public static double POWER = 0.4; // Making variable public allows it to be changed in FTC Dashboard itself
+    public static double POWER = 0.45; // Making variable public allows it to be changed in FTC Dashboard itself
 
     @Override
     public void initialize() {
