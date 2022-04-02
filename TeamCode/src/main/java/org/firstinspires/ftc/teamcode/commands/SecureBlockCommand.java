@@ -58,22 +58,31 @@ public class SecureBlockCommand extends SequentialCommandGroup {
                 //         () -> time.seconds() >= liftTime,
                 //         lift
                 // ),
+
+
+                // new ConditionalCommand(
+                //         new LiftCommandNoPIDUp(lift, time),
+                //         new InstantCommand(drop::dropOne).alongWith(new WaitCommand(1000)),
+                //         // () -> lift.getLevel() == 0
+                //         () -> !isSecured
+                // ),
+                // new ConditionalCommand(
+                //         new InstantCommand(drop::dropThree).alongWith(new WaitCommand(1000)).andThen(new InstantCommand(() -> isSecured = true)),
+                //         new ConditionalCommand(
+                //                 new InstantCommand(() -> MainTeleOp.wasHigh = false).andThen(new InstantCommand(() -> isSecured = false)),
+                //                 new LiftCommandNoPIDDown(lift, time).andThen(new InstantCommand(() -> isSecured = false)),
+                //                 () -> MainTeleOp.wasHigh
+                //         ),
+//              //           () -> lift.getLevel() == 1
+                //         () -> !isSecured
+                // )
                 new ConditionalCommand(
-                        new LiftCommandNoPIDUp(lift, time),
+                        new InstantCommand(drop::dropThree).alongWith(new WaitCommand(1000)),
                         new InstantCommand(drop::dropOne).alongWith(new WaitCommand(1000)),
-                        // () -> lift.getLevel() == 0
                         () -> !isSecured
                 ),
-                new ConditionalCommand(
-                        new InstantCommand(drop::dropTwo).alongWith(new WaitCommand(1000)).andThen(new InstantCommand(() -> isSecured = true)),
-                        new ConditionalCommand(
-                                new InstantCommand(() -> MainTeleOp.wasHigh = false).andThen(new InstantCommand(() -> isSecured = false)),
-                                new LiftCommandNoPIDDown(lift, time).andThen(new InstantCommand(() -> isSecured = false)),
-                                () -> MainTeleOp.wasHigh
-                        ),
-//                        () -> lift.getLevel() == 1
-                        () -> !isSecured
-                )
+                new InstantCommand(() -> isSecured = !isSecured)
+
                 // lift.getLevel() == 1 ? new InstantCommand(drop::dropTwo).alongWith(new WaitCommand(1000)) : new InstantCommand(drop::dropOne).alongWith(new WaitCommand(1000))
         );
     }
